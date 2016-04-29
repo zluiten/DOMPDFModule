@@ -1,16 +1,22 @@
 {
-    "name": "dino/dompdf-module",
+    "name": "netiul/dompdf-module",
     "type": "library",
-    "description": "A Zend Framework 2 module for incorporating DOMPDF support.",
+    "description": "A Zend Framework 2 module for incorporating DOMPDF support - Originally by Raymond Kolbe",
     "keywords": ["pdf","dompdf", "zf2"],
-    "homepage": "http://raymondkolbe.com",
     "license": "MIT",
     "authors": [
         {
-        "name": "Raymond J. Kolbe",
-        "email": "rkolbe@gmail.com"
+          "name": "Zacharias Luiten",
+          "email": "dompdf@zachariasluiten.com"
+        },
+        {
+          "name": "Raymond J. Kolbe",
+          "email": "rkolbe@gmail.com"
         }
     ],
+    "replace" : {
+        "dino/dompdf-module": "0.*"
+    },
     "require": {
         "php": ">=5.6",
         "zendframework/zend-loader": "^2.4",
@@ -33,13 +39,13 @@
         "phpmd/phpmd": "^2.4"
     },
     "autoload": {
-        "psr-0": {
-            "DOMPDFModule": "src/"
+        "psr-4": {
+            "DOMPDFModule\\": "src/DOMPDFModule"
         }
     },
     "autoload-dev": {
-        "psr-0": {
-            "DOMPDFModuleTest": "tests/"
+        "psr-4": {
+          "DOMPDFModuleTest\\": "tests/DOMPDFModuleTest"
         }
     }
 }
