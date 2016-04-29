@@ -41,7 +41,6 @@ class PdfStrategy implements ListenerAggregateInterface
      * Constructor
      *
      * @param  PdfRenderer $renderer
-     * @return void
      */
     public function __construct(PdfRenderer $renderer)
     {
