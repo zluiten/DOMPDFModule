@@ -1,20 +1,19 @@
 language: php
 
 php:
-  - 5.3
+  - 5.5
 
 before_script:
   - cd ..
   - git clone git://github.com/zendframework/ZendSkeletonApplication.git
   - cd ZendSkeletonApplication
-  - rm .gitmodules
-  - git rm --cached vendor/ZF2
+  - git checkout -b br-release-2.3.3 release-2.3.3
   - cp ../DOMPDFModule/.travis/composer.json ./
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install
-  - rm -rf vendor/dino/dompdf-module
-  - cp -r ../DOMPDFModule vendor/dino/dompdf-module
+  - rm -rf vendor/netiul/dompdf-module/*
+  - cp -r ../DOMPDFModule vendor/netiul/dompdf-module
 
 script:
-  - cd vendor/dino/dompdf-module/tests
-  - phpunit
+  - cd vendor/netiul/dompdf-module/tests
+  - ../../../bin/phpunit
