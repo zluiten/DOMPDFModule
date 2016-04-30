@@ -10,12 +10,11 @@ error_reporting(E_ALL | E_STRICT);
 chdir(__DIR__);
 
 $previousDir = '.';
-while (!file_exists('config/application.config.php')) {
+while (!file_exists('vendor/autoload.php')) {
     $dir = dirname(getcwd());
     if ($previousDir === $dir) {
         throw new RuntimeException(
-                'Unable to locate "config/application.config.php": ' .
-                'is DOMPDFModule in a subdir of your application skeleton?'
+                'Unable to locate "vendor/autoload.php"'
         );
     }
     $previousDir = $dir;
@@ -30,15 +29,6 @@ if (is_readable(__DIR__ . '/TestConfiguration.php')) {
 
 // Assumes PHP Composer autoloader w/compiled classmaps, etc.
 require_once 'vendor/autoload.php';
-
-// This namespace is not in classmap.
-$loader = new StandardAutoloader(
-                array(
-                    StandardAutoloader::LOAD_NS => array(
-                        'DOMPDFModuleTest' => __DIR__ . '/DOMPDFModuleTest'
-                    ),
-        ));
-$loader->register();
 
 $serviceManager = new ServiceManager(new ServiceManagerConfig($configuration['service_manager']));
 $serviceManager->setService('ApplicationConfig', $configuration);
