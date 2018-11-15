@@ -150,10 +150,11 @@ class PdfStrategyTest extends TestCase
         $this->execute($this->strategy, $this->event, $model);
 
         $response = $this->event->getResponse();
+        $expectedContentLength = strlen($response->getBody());
         $this->assertHeaderEqualTo(
             $response,
             'Content-Length',
-            1148,
+            $expectedContentLength,
             'content length'
         );
     }
@@ -178,7 +179,7 @@ class PdfStrategyTest extends TestCase
         $htmlRenderer = new PhpRenderer();
         $htmlRenderer->setResolver($this->resolver);
         $this->renderer->setHtmlRenderer($htmlRenderer);
-        $this->renderer->setEngine($this->getServiceManager()->get('dompdf'));
+        $this->renderer->setEngine($this->getServiceManager()->get('DOMPDF'));
     }
 
     private function execute(PdfStrategy $strategy, ViewEvent $event, PdfModel $model)

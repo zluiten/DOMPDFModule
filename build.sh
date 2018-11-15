@@ -114,7 +114,7 @@ echo "Verifying source...";
 ${VENDOR_BIN}/phpcs --standard=PSR2 src
 ${VENDOR_BIN}/phpcs --standard=PSR2 config
 ${VENDOR_BIN}/phpcs --standard=PSR2 tests
-${VENDOR_BIN}/phpmd config,src,tests text cleancode,codesize,controversial,design,naming,unusedcode
+${VENDOR_BIN}/phpmd config,src,tests text cleancode,codesize,controversial,design
 
 # ------------------------------------------------------------------
 # Install

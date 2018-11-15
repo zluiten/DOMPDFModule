@@ -15,19 +15,11 @@ PHP Composer, please visit the official [PHP Composer site](http://getcomposer.o
 #### Installation steps
 
   1. `cd my/project/directory`
-  2. create a `composer.json` file with following contents:
+  2. Add the module to the project by:
+  
+    composer require netiul/dompdf-module
 
-     ```json
-     {
-         "require": {
-             "netiul/dompdf-module": "^0.4"
-         }
-     }
-     ```
-  3. install PHP Composer via `curl -s http://getcomposer.org/installer | php` (on windows, download
-     http://getcomposer.org/installer and execute it with PHP)
-  4. run `php composer.phar install`
-  5. open `my/project/directory/config/application.config.php` and add the following key to your `modules`: 
+  3. open `my/project/directory/config/application.config.php` and add the following key to your `modules`: 
 
      ```php
      'DOMPDFModule',
