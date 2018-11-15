@@ -19,7 +19,7 @@
 
 define('DOMPDF_DIR', __DIR__ . '/../vendor/dompdf/dompdf');
 
-return array(
+$config = array(
     'modules' => array(
         'DOMPDFModule',
     ),
@@ -35,3 +35,9 @@ return array(
         'use_defaults' => true,
     ),
 );
+
+if (class_exists(Zend\Router\Module::class)) {
+    $config['modules'][] = 'Zend\Router';
+}
+
+return $config;
