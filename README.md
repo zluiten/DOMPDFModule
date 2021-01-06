@@ -3,10 +3,10 @@ DOMPDFModule
 
 Master: ![master](https://github.com/netiul/DOMPDFModule/workflows/Continuous%20Integration/badge.svg?branch=master)
 
-The DOMPDF module integrates the DOMPDF library with Zend Framework 2 with minimal effort on the consumer's end.
+The DOMPDF module integrates the DOMPDF library with Laminas with minimal effort on the consumer's end.
 
 ## Requirements
-  - [Laminas](https://getlaminas.org/)
+- [Laminas](https://getlaminas.org/)
 
 ## Installation
 Installation of DOMPDFModule uses PHP Composer. For more information about
@@ -14,16 +14,16 @@ PHP Composer, please visit the official [PHP Composer site](http://getcomposer.o
 
 #### Installation steps
 
-  1. `cd my/project/directory`
-  2. Add the module to the project by:
-  
+1. `cd my/project/directory`
+2. Add the module to the project by:
+
     composer require netiul/dompdf-module
 
-  3. open `my/project/directory/config/application.config.php` and add the following key to your `modules`: 
+3. open `my/project/directory/config/application.config.php` and add the following key to your `modules`:
 
-     ```php
-     'DOMPDFModule',
-     ```
+   ```php
+   'DOMPDFModule',
+   ```
 #### Configuration options
 You can override options via the `dompdf_module` key in your local or global config files. See DOMPDFModule/config/module.config.php for config options.
 
@@ -34,7 +34,7 @@ You can override options via the `dompdf_module` key in your local or global con
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Controller\AbstractActionController;
 use DOMPDFModule\View\Model\PdfModel;
 
 class ReportController extends AbstractActionController
@@ -67,23 +67,10 @@ So you want to contribute? Fantastic! Don't worry, it's easy. Local builds, test
 docker build -t dino/dompdf-module .
 docker run -v composer-cache:/var/lib/composer -v ${PWD}:/opt/app dino/dompdf-module
 ```
-    
+
 Super easy, right? Here's a quick walk through as to what's going on.
 
 * `docker build -t dino/dompdf-module .` builds a docker image that will be used for each run (i.e. each time `docker run` is executed) and tags it with the name `dino/dompdf-module`.
 * `docker run -v composer-cache:/var/lib/composer -v ${PWD}:/opt/app dino/dompdf-module` runs the default build in a new Docker container derived from the image tagged `dino/dompdf-module`. The root of the project and PHP Composer cache volume are mounted so that artifacts generated during the build process are available to you on your local machine.
 
 **Note:** You only need to run the first command once in order to build the image. The second command is what executes the build (build, tests, code quality checks, etc.).
-
-### Other Supported PHP Versions
-By default, builds executed using Docker are done so using the [latest stable version of PHP](http://php.net/supported-versions.php). If you're adventurous you can execute builds against other [supported versions](http://php.net/supported-versions.php) of PHP.
-
-**PHP 5.6**
-
-```
-docker build --build-arg PHP_VERSION=5.6 --tag dino/dompdf-module-php56 .
-docker run -v composer-cache:/var/lib/composer -v ${PWD}:/opt/app dino/dompdf-module-php56
-```
-
-## To-do
-  - Add command line support.
