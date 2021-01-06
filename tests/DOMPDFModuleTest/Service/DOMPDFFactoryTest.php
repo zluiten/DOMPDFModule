@@ -17,9 +17,12 @@
  * @license	http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-namespace DOMPDFModule\Service;
+declare(strict_types=1);
+
+namespace DOMPDFModuleTest\Service;
 
 use Dompdf\Dompdf;
+use DOMPDFModule\Service\DOMPDFFactory;
 use DOMPDFModuleTest\Framework\TestCase;
 
 class DOMPDFFactoryTest extends TestCase
@@ -29,20 +32,20 @@ class DOMPDFFactoryTest extends TestCase
      *
      * @var DOMPDFFactory
      */
-    private $factory;
+    private DOMPDFFactory $factory;
 
-    public function testItCreatesAValidInstance()
+    public function testItCreatesAValidInstance(): void
     {
-        $dompdf = $this->factory->createService($this->getServiceManager());
+        $dompdf = ($this->factory)($this->getServiceManager());
 
-        $this->assertInstanceOf('\Dompdf\Dompdf', $dompdf);
+        $this->assertInstanceOf(Dompdf::class, $dompdf);
         $this->assertNotNullOptions($dompdf);
     }
 
-    public function testItCreatesUniqueInstances()
+    public function testItCreatesUniqueInstances(): void
     {
-        $firstInstance = $this->factory->createService($this->getServiceManager());
-        $secondInstance = $this->factory->createService($this->getServiceManager());
+        $firstInstance = ($this->factory)($this->getServiceManager());
+        $secondInstance = ($this->factory)($this->getServiceManager());
 
         $this->assertNotSame($firstInstance, $secondInstance);
     }
@@ -50,7 +53,7 @@ class DOMPDFFactoryTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -62,7 +65,7 @@ class DOMPDFFactoryTest extends TestCase
      *
      * @param Dompdf $dompdf
      */
-    private function assertNotNullOptions(Dompdf $dompdf)
+    private function assertNotNullOptions(Dompdf $dompdf): void
     {
         $options = $dompdf->getOptions();
 

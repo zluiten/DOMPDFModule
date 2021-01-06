@@ -21,26 +21,24 @@ namespace DOMPDFModule\View\Strategy;
 
 use DOMPDFModule\View\Model;
 use DOMPDFModule\View\Renderer\PdfRenderer;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\View\ViewEvent;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\ListenerAggregateInterface;
+use Laminas\View\ViewEvent;
 
 class PdfStrategy implements ListenerAggregateInterface
 {
     /**
-     * @var \Zend\Stdlib\CallbackHandler[]
+     * @var callable[]
      */
-    protected $listeners = [];
+    protected array $listeners = [];
 
     /**
      * @var PdfRenderer
      */
-    protected $renderer;
+    protected PdfRenderer $renderer;
 
     /**
-     * Constructor
-     *
-     * @param  PdfRenderer $renderer
+     * @param PdfRenderer $renderer
      */
     public function __construct(PdfRenderer $renderer)
     {
@@ -54,7 +52,7 @@ class PdfStrategy implements ListenerAggregateInterface
      * @param  int $priority
      * @return void
      */
-    public function attach(EventManagerInterface $events, $priority = 1)
+    public function attach(EventManagerInterface $events, $priority = 1): void
     {
         $this->listeners[] = $events->attach(ViewEvent::EVENT_RENDERER, [$this, 'selectRenderer'], $priority);
         $this->listeners[] = $events->attach(ViewEvent::EVENT_RESPONSE, [$this, 'injectResponse'], $priority);
@@ -66,12 +64,11 @@ class PdfStrategy implements ListenerAggregateInterface
      * @param  EventManagerInterface $events
      * @return void
      */
-    public function detach(EventManagerInterface $events)
+    public function detach(EventManagerInterface $events): void
     {
         foreach ($this->listeners as $index => $listener) {
-            if ($events->detach($listener)) {
-                unset($this->listeners[$index]);
-            }
+            $events->detach($listener);
+            unset($this->listeners[$index]);
         }
     }
 
@@ -81,7 +78,7 @@ class PdfStrategy implements ListenerAggregateInterface
      * @param  ViewEvent $event
      * @return null|PdfRenderer
      */
-    public function selectRenderer(ViewEvent $event)
+    public function selectRenderer(ViewEvent $event): ?PdfRenderer
     {
         $model = $event->getModel();
         
@@ -95,10 +92,10 @@ class PdfStrategy implements ListenerAggregateInterface
     /**
      * Inject the response with the PDF payload and appropriate Content-Type header
      *
-     * @param  ViewEvent $e
+     * @param ViewEvent $event
      * @return void
      */
-    public function injectResponse(ViewEvent $event)
+    public function injectResponse(ViewEvent $event): void
     {
         $renderer = $event->getRenderer();
         if ($renderer !== $this->renderer) {
@@ -107,7 +104,7 @@ class PdfStrategy implements ListenerAggregateInterface
         }
 
         $result = $event->getResult();
-        if (!is_string($result)) {
+        if (!\is_string($result)) {
             // No output to display. Good bye!
             return;
         }
@@ -121,11 +118,11 @@ class PdfStrategy implements ListenerAggregateInterface
         $fileName        = $options['fileName'];
         $dispositionType = $options['display'];
 
-        if (substr($fileName, -4) != '.pdf') {
+        if (\substr($fileName, -4) != '.pdf') {
             $fileName .= '.pdf';
         }
 
-        $headerValue = sprintf('%s; filename="%s"', $dispositionType, $fileName);
+        $headerValue = \sprintf('%s; filename="%s"', $dispositionType, $fileName);
 
         $response->getHeaders()->addHeaderLine('Content-Disposition', $headerValue);
         $response->getHeaders()->addHeaderLine('Content-Length', strlen($result));

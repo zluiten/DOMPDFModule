@@ -1,12 +1,12 @@
 DOMPDFModule
 ============
 
-Master: [![Build Status](https://secure.travis-ci.org/netiul/DOMPDFModule.png?branch=master)](http://travis-ci.org/netiul/DOMPDFModule)
+Master: ![master](https://github.com/netiul/DOMPDFModule/workflows/Continuous%20Integration/badge.svg?branch=master)
 
 The DOMPDF module integrates the DOMPDF library with Zend Framework 2 with minimal effort on the consumer's end.
 
 ## Requirements
-  - [Zend Framework 2](http://www.github.com/zendframework/zf2)
+  - [Laminas](https://getlaminas.org/)
 
 ## Installation
 Installation of DOMPDFModule uses PHP Composer. For more information about

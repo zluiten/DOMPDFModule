@@ -20,47 +20,48 @@
 namespace DOMPDFModuleTest\View\Model;
 
 use DOMPDFModule\View\Model\PdfModel;
+use PHPUnit\Framework\TestCase;
 
-class PdfModelTest extends \PHPUnit_Framework_TestCase
+class PdfModelTest extends TestCase
 {
     /**
      * System under test.
      *
      * @var PdfModel
      */
-    private $model;
+    private PdfModel $model;
 
-    public function testItHasDefaultPaperSize()
+    public function testItHasDefaultPaperSize(): void
     {
         $this->assertEquals('8x11', $this->model->getOption('paperSize'));
     }
 
-    public function testItHasDefaultPaperOrientation()
+    public function testItHasDefaultPaperOrientation(): void
     {
         $this->assertEquals('portrait', $this->model->getOption('paperOrientation'));
     }
 
-    public function testItHasDefaultBasePath()
+    public function testItHasDefaultBasePath(): void
     {
         $this->assertEquals('/', $this->model->getOption('basePath'));
     }
 
-    public function testItHasDefaultFileName()
+    public function testItHasDefaultFileName(): void
     {
         $this->assertEquals('untitled.pdf', $this->model->getOption('fileName'));
     }
 
-    public function testItHasDefaultDisplayOption()
+    public function testItHasDefaultDisplayOption(): void
     {
         $this->assertEquals(PdfModel::DISPLAY_INLINE, $this->model->getOption('display'));
     }
 
-    public function testItIsTerminal()
+    public function testItIsTerminal(): void
     {
         $this->assertTrue($this->model->terminate());
     }
 
-    public function testItDoesNotHaveCaptureToVariable()
+    public function testItDoesNotHaveCaptureToVariable(): void
     {
         $this->assertNull($this->model->captureTo());
     }
@@ -68,7 +69,7 @@ class PdfModelTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
