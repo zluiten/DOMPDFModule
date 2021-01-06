@@ -20,13 +20,14 @@
 namespace DOMPDFModuleTest;
 
 use DOMPDFModule\Module;
+use PHPUnit\Framework\TestCase;
 
-class ModuleTest extends \PHPUnit_Framework_TestCase
+class ModuleTest extends TestCase
 {
     /**
      * @var Module
      */
-    private $module;
+    private Module $module;
 
     public function testHasConfig()
     {
@@ -37,16 +38,10 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('service_manager', $config, 'service_manager');
     }
 
-    public function testHasAutoloaderConfig()
-    {
-        $config = $this->module->getAutoloaderConfig();
-        $this->assertInternalType('array', $config, 'config is array');
-    }
-
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

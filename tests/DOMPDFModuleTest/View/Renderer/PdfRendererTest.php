@@ -17,48 +17,49 @@
  * @license	http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-namespace DOMPDFModuleTest\View\Strategy;
+declare(strict_types=1);
 
-use Zend\View\Model\JsonModel;
+namespace DOMPDFModuleTest\View\Renderer;
+
+use Dompdf\Dompdf;
+use Laminas\View\Model\JsonModel;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
 use DOMPDFModuleTest\Framework\TestCase;
 use DOMPDFModule\View\Model\PdfModel;
 use DOMPDFModule\View\Renderer\PdfRenderer;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class PdfRendererTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var RendererInterface|MockObject
      */
-    private $htmlRenderer;
+    private RendererInterface $htmlRenderer;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var Dompdf|MockObject
      */
-    private $engine;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $resolver;
+    private Dompdf $engine;
 
     /**
      * System under test.
      *
      * @var PdfRenderer
      */
-    private $renderer;
+    private PdfRenderer $renderer;
 
-    public function testItHasAnHtmlRenderer()
+    public function testItHasAnHtmlRenderer(): void
     {
-        $this->assertInstanceOf('Zend\View\Renderer\RendererInterface', $this->renderer->getHtmlRenderer());
+        $this->assertInstanceOf(\Laminas\View\Renderer\RendererInterface::class, $this->renderer->getHtmlRenderer());
     }
 
-    public function testItHasAnEngine()
+    public function testItHasAnEngine(): void
     {
-        $this->assertInstanceOf('\Dompdf\Dompdf', $this->renderer->getEngine());
+        $this->assertInstanceOf(\Dompdf\Dompdf::class, $this->renderer->getEngine());
     }
 
-    public function testItRendersAPdfModel()
+    public function testItRendersAPdfModel(): void
     {
         $this->htmlRenderer->expects($this->once())->method('render');
 
@@ -71,11 +72,10 @@ class PdfRendererTest extends TestCase
         $this->renderer->render(new PdfModel());
     }
 
-    /**
-     * @expectedException \Zend\View\Exception\InvalidArgumentException
-     */
-    public function testItDoesNotRenderOtherModels()
+    public function testItDoesNotRenderOtherModels(): void
     {
+        $this->expectException(\Laminas\View\Exception\InvalidArgumentException::class);
+
         $this->htmlRenderer->expects($this->never())->method('render');
 
         $this->engine->expects($this->never())->method('render');
@@ -84,11 +84,10 @@ class PdfRendererTest extends TestCase
         $this->renderer->render(new JsonModel());
     }
 
-    /**
-     * @expectedException \Zend\View\Exception\InvalidArgumentException
-     */
-    public function testItDoesNotRenderNamedModels()
+    public function testItDoesNotRenderNamedModels(): void
     {
+        $this->expectException(\Laminas\View\Exception\InvalidArgumentException::class);
+
         $this->htmlRenderer->expects($this->never())->method('render');
 
         $this->engine->expects($this->never())->method('render');
@@ -100,17 +99,16 @@ class PdfRendererTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->htmlRenderer = $this->getMock('Zend\View\Renderer\RendererInterface');
-        $this->resolver = $this->getMock('Zend\View\Resolver\ResolverInterface');
-        $this->engine = $this->getMockBuilder('\Dompdf\Dompdf')->disableOriginalConstructor()->getMock();
+        $this->htmlRenderer = $this->createMock(RendererInterface::class);
+        $this->resolver = $this->createMock(ResolverInterface::class);
+        $this->engine = $this->getMockBuilder(Dompdf::class)->disableOriginalConstructor()->getMock();
 
         $this->renderer = new PdfRenderer();
         $this->renderer->setHtmlRenderer($this->htmlRenderer);
-        $this->renderer->setResolver($this->resolver);
         $this->renderer->setEngine($this->engine);
     }
 }

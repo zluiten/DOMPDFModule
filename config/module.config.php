@@ -17,7 +17,7 @@
  * @license	http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-namespace DOMPDFModule;
+declare(strict_types=1);
 
 return [
     'dompdf_module' => [
@@ -277,9 +277,14 @@ return [
             'DOMPDF' => false
         ],
         'factories' => [
-            'DOMPDF'          => __NAMESPACE__ . '\Service\DOMPDFFactory',
-            'ViewPdfRenderer' => __NAMESPACE__ . '\Mvc\Service\ViewPdfRendererFactory',
-            'ViewPdfStrategy' => __NAMESPACE__ . '\Mvc\Service\ViewPdfStrategyFactory',
+            \Dompdf\Dompdf::class => \DOMPDFModule\Service\DOMPDFFactory::class,
+            \DOMPDFModule\View\Renderer\PdfRenderer::class => \DOMPDFModule\Mvc\Service\ViewPdfRendererFactory::class,
+            \DOMPDFModule\View\Strategy\PdfStrategy::class => \DOMPDFModule\Mvc\Service\ViewPdfStrategyFactory::class,
+        ],
+        'aliases' => [
+            'DOMPDF'          => \Dompdf\Dompdf::class,
+            'ViewPdfRenderer' => \DOMPDFModule\View\Renderer\PdfRenderer::class,
+            'ViewPdfStrategy' => \DOMPDFModule\View\Strategy\PdfStrategy::class,
         ]
     ]
 ];

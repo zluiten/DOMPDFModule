@@ -17,12 +17,14 @@
  * @license	http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+declare(strict_types=1);
+
 namespace DOMPDFModule\View\Renderer;
 
 use DOMPDFModule\View\Model\PdfModel;
-use Zend\View\Exception\InvalidArgumentException;
-use Zend\View\Renderer\RendererInterface as Renderer;
-use Zend\View\Resolver\ResolverInterface as Resolver;
+use Laminas\View\Exception\InvalidArgumentException;
+use Laminas\View\Renderer\RendererInterface as Renderer;
+use Laminas\View\Resolver\ResolverInterface as Resolver;
 use Dompdf\Dompdf;
 
 class PdfRenderer implements Renderer
@@ -30,23 +32,18 @@ class PdfRenderer implements Renderer
     /**
      * @var Dompdf|null
      */
-    private $dompdf = null;
-
-    /**
-     * @var Resolver|null
-     */
-    private $resolver = null;
+    private ?Dompdf $dompdf = null;
 
     /**
      * @var Renderer|null
      */
-    private $htmlRenderer = null;
+    private ?Renderer $htmlRenderer = null;
 
     /**
      * @param Renderer $renderer
      * @return $this
      */
-    public function setHtmlRenderer(Renderer $renderer)
+    public function setHtmlRenderer(Renderer $renderer): PdfRenderer
     {
         $this->htmlRenderer = $renderer;
         return $this;
@@ -55,7 +52,7 @@ class PdfRenderer implements Renderer
     /**
      * @return Renderer
      */
-    public function getHtmlRenderer()
+    public function getHtmlRenderer(): ?Renderer
     {
         return $this->htmlRenderer;
     }
@@ -64,7 +61,7 @@ class PdfRenderer implements Renderer
      * @param Dompdf $dompdf
      * @return $this
      */
-    public function setEngine(Dompdf $dompdf)
+    public function setEngine(Dompdf $dompdf): PdfRenderer
     {
         $this->dompdf = $dompdf;
         return $this;
@@ -73,7 +70,7 @@ class PdfRenderer implements Renderer
     /**
      * @return Dompdf
      */
-    public function getEngine()
+    public function getEngine(): ?Dompdf
     {
         return $this->dompdf;
     }
@@ -82,16 +79,15 @@ class PdfRenderer implements Renderer
      * @param Resolver $resolver
      * @return $this
      */
-    public function setResolver(Resolver $resolver)
+    public function setResolver(Resolver $resolver): PdfRenderer
     {
-        $this->resolver = $resolver;
         return $this;
     }
     
     /**
      * {@inheritdoc}
      */
-    public function render($nameOrModel, $values = null)
+    public function render($nameOrModel, $values = null): ?string
     {
         if (!($nameOrModel instanceof PdfModel)) {
             throw new InvalidArgumentException(sprintf(

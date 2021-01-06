@@ -17,36 +17,23 @@
  * @license	http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+declare(strict_types=1);
+
 namespace DOMPDFModule\Service;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
-class DOMPDFFactory implements FactoryInterface
+class DOMPDFFactory
 {
     /**
      * @param ContainerInterface $container
-     * @param string $requestedName
-     * @param array|null $options
      * @return Dompdf
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container): Dompdf
     {
-        return $this->createService($container);
-    }
-
-    /**
-     * Creates an instance of Dompdf.
-     *
-     * @param  ServiceLocatorInterface $serviceLocator
-     * @return Dompdf
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
-    {
-        $moduleConfig = $serviceLocator->get('config')['dompdf_module'];
+        $moduleConfig = $container->get('config')['dompdf_module'];
 
         $options = [
             'temp_dir'                   => $moduleConfig['temporary_directory'],

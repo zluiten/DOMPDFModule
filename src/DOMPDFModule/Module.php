@@ -17,6 +17,8 @@
  * @license	http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+declare(strict_types=1);
+
 namespace DOMPDFModule;
 
 class Module
@@ -24,19 +26,8 @@ class Module
     /**
      * @return array
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         return include __DIR__ . '/../../config/module.config.php';
-    }
-    
-    public function getAutoloaderConfig()
-    {
-        return [
-            'Zend\Loader\StandardAutoloader' => [
-                'namespaces' => [
-                    __NAMESPACE__ => __DIR__ ,
-                ]
-            ]
-        ];
     }
 }

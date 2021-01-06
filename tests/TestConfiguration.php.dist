@@ -36,7 +36,7 @@ $config = array(
     ),
 );
 
-if (class_exists(Zend\Router\Module::class)) {
+if (\class_exists(Zend\Router\Module::class)) {
     $config['modules'][] = 'Zend\Router';
 }
 

@@ -17,14 +17,16 @@
  * @license	http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+declare(strict_types=1);
+
 namespace DOMPDFModuleTest\View\Strategy;
 
-use Zend\Stdlib\ResponseInterface;
-use Zend\View\Model\ViewModel;
-use Zend\View\Resolver\TemplatePathStack;
-use Zend\View\Renderer\PhpRenderer;
-use Zend\View\ViewEvent;
-use Zend\Http\Response as HttpResponse;
+use Laminas\Stdlib\ResponseInterface;
+use Laminas\View\Model\ViewModel;
+use Laminas\View\Resolver\TemplatePathStack;
+use Laminas\View\Renderer\PhpRenderer;
+use Laminas\View\ViewEvent;
+use Laminas\Http\Response as HttpResponse;
 use DOMPDFModuleTest\Framework\TestCase;
 use DOMPDFModule\View\Model\PdfModel;
 use DOMPDFModule\View\Renderer\PdfRenderer;
@@ -35,59 +37,62 @@ class PdfStrategyTest extends TestCase
     /**
      * @var ViewEvent
      */
-    private $event;
+    private ViewEvent $event;
 
     /**
      * @var PdfRenderer
      */
-    private $renderer;
+    private PdfRenderer $renderer;
 
     /**
      * @var TemplatePathStack
      */
-    private $resolver;
+    private TemplatePathStack $resolver;
 
     /**
      * @var HttpResponse
      */
-    private $response;
+    private HttpResponse $response;
 
     /**
      * System under test.
      *
      * @var PdfStrategy
      */
-    private $strategy;
+    private PdfStrategy $strategy;
 
-    public function testSelectsRendererWhenProvidedPdfModel()
+    public function testSelectsRendererWhenProvidedPdfModel(): void
     {
         $this->event->setModel(new PdfModel());
         $result = $this->strategy->selectRenderer($this->event);
         $this->assertSame($this->renderer, $result);
     }
 
-    public function testDoesNotSelectRendererWhenNotProvidedPdfModel()
+    public function testDoesNotSelectRendererWhenNotProvidedPdfModel(): void
     {
         $this->event->setModel(new ViewModel());
         $result = $this->strategy->selectRenderer($this->event);
         $this->assertNull($result);
     }
 
-    public function testDoesNotRenderPdfWhenRenderMismatch()
+    public function testDoesNotRenderPdfWhenRenderMismatch(): void
     {
         $this->event->setRenderer(new PhpRenderer());
-        $result = $this->strategy->injectResponse($this->event);
-        $this->assertNull($result);
+        $this->event->setResult('dummy result');
+
+        $this->strategy->injectResponse($this->event);
+
+        $this->assertNull($this->event->getResponse());
     }
 
-    public function testDoesNotRenderPdfWhenResultIsNotString()
+    public function testDoesNotRenderPdfWhenResultIsNotString(): void
     {
         $this->event->setRenderer($this->renderer);
         $this->event->setResult(new \stdClass());
 
-        $result = $this->strategy->injectResponse($this->event);
+        $this->strategy->injectResponse($this->event);
 
-        $this->assertNull($result);
+        $this->assertNull($this->event->getResponse());
     }
 
     public function testItAddsApplicationPdfContentType()
@@ -106,7 +111,7 @@ class PdfStrategyTest extends TestCase
         );
     }
     
-    public function testItAddsAttachmentDispositionType()
+    public function testItAddsAttachmentDispositionType(): void
     {
         $model = new PdfModel();
         $model->setTemplate('basic.phtml');
@@ -124,7 +129,7 @@ class PdfStrategyTest extends TestCase
         );
     }
 
-    public function testItAddsInlineDispositionType()
+    public function testItAddsInlineDispositionType(): void
     {
         $model = new PdfModel();
         $model->setTemplate('basic.phtml');
@@ -142,7 +147,7 @@ class PdfStrategyTest extends TestCase
         );
     }
 
-    public function testItAddsContentLength()
+    public function testItAddsContentLength(): void
     {
         $model = new PdfModel();
         $model->setTemplate('basic.phtml');
@@ -150,7 +155,7 @@ class PdfStrategyTest extends TestCase
         $this->execute($this->strategy, $this->event, $model);
 
         $response = $this->event->getResponse();
-        $expectedContentLength = strlen($response->getBody());
+        $expectedContentLength = \strlen($response->getBody());
         $this->assertHeaderEqualTo(
             $response,
             'Content-Length',
@@ -162,7 +167,7 @@ class PdfStrategyTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -172,9 +177,7 @@ class PdfStrategyTest extends TestCase
         $this->response = new HttpResponse();
 
         $this->resolver = new TemplatePathStack();
-        $this->resolver->addPath(dirname(__DIR__) . '/_templates');
-
-        $this->renderer->setResolver($this->resolver);
+        $this->resolver->addPath(\dirname(__DIR__) . '/_templates');
 
         $htmlRenderer = new PhpRenderer();
         $htmlRenderer->setResolver($this->resolver);
@@ -182,7 +185,7 @@ class PdfStrategyTest extends TestCase
         $this->renderer->setEngine($this->getServiceManager()->get('DOMPDF'));
     }
 
-    private function execute(PdfStrategy $strategy, ViewEvent $event, PdfModel $model)
+    private function execute(PdfStrategy $strategy, ViewEvent $event, PdfModel $model): void
     {
         $event->setModel($model);
         $event->setResponse($this->response);
@@ -192,7 +195,7 @@ class PdfStrategyTest extends TestCase
         $strategy->injectResponse($this->event);
     }
 
-    private function assertHeaderEqualTo(ResponseInterface $response, $name, $expected, $message = '')
+    private function assertHeaderEqualTo(ResponseInterface $response, $name, $expected, $message = ''): void
     {
         $headers = $response->getHeaders();
         $header = $headers->get($name);
