@@ -1,18 +1,26 @@
 name: "Continuous Integration"
 
-on: ["pull_request", "push"]
+on: ["pull_request"]
 
 jobs:
   phpunit:
     name: "PHPUnit"
     runs-on: "ubuntu-20.04"
+    continue-on-error: ${{ matrix.experimental }}
 
     strategy:
+      fail-fast: false
       matrix:
+        experimental: [false]
         php-version:
           - "7.4"
         deps:
+          - "lowest"
           - "highest"
+        include:
+          - php-version: "8.0"
+            deps: "highest"
+            experimental: true
 
     steps:
       - name: "Checkout"

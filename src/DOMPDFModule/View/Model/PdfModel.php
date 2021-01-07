@@ -1,4 +1,5 @@
 <?php
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,9 +26,9 @@ use Laminas\View\Model\ViewModel;
 
 class PdfModel extends ViewModel
 {
-    const DISPLAY_INLINE = 'inline';
-    const DISPLAY_ATTACHMENT = 'attachment';
-    const DEFAULT_FILE_NAME = 'untitled.pdf';
+    public const DISPLAY_INLINE = 'inline';
+    public const DISPLAY_ATTACHMENT = 'attachment';
+    public const DEFAULT_FILE_NAME = 'untitled.pdf';
 
     /**
      * Renderer options
