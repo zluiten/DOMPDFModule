@@ -90,10 +90,10 @@ class PdfRenderer implements Renderer
     public function render($nameOrModel, $values = null): ?string
     {
         if (!($nameOrModel instanceof PdfModel)) {
-            throw new InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(\sprintf(
                 '%s expects a PdfModel as the first argument; received "%s"',
                 __METHOD__,
-                (is_object($nameOrModel) ? get_class($nameOrModel) : gettype($nameOrModel))
+                (\is_object($nameOrModel) ? \get_class($nameOrModel) : \gettype($nameOrModel))
             ));
         }
 
