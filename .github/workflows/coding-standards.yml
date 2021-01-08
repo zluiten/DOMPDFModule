@@ -1,6 +1,6 @@
 name: "Coding Standards"
 
-on: ["pull_request", "push"]
+on: ["push"]
 
 jobs:
   coding-standards:

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,11 +24,14 @@ namespace DOMPDFModule;
 
 class Module
 {
-    /**
-     * @return array
-     */
     public function getConfig(): array
     {
-        return include __DIR__ . '/../../config/module.config.php';
+        $configProvider = new ConfigProvider();
+
+        return [
+            'dompdf_module' => $configProvider->getDOMPDFModuleConfig(),
+            'service_manager' => $configProvider->getDependenciesConfig(),
+            'view_manager' => $configProvider->getViewManagerConfig(),
+        ];
     }
 }

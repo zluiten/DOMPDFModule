@@ -1,4 +1,5 @@
 <?php
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -81,7 +82,7 @@ class PdfStrategy implements ListenerAggregateInterface
     public function selectRenderer(ViewEvent $event): ?PdfRenderer
     {
         $model = $event->getModel();
-        
+
         if ($model instanceof Model\PdfModel) {
             return $this->renderer;
         }
@@ -108,7 +109,7 @@ class PdfStrategy implements ListenerAggregateInterface
             // No output to display. Good bye!
             return;
         }
-        
+
         $response = $event->getResponse();
         $response->setContent($result);
 

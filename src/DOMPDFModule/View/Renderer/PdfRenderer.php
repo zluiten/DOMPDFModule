@@ -1,4 +1,5 @@
 <?php
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -83,7 +84,7 @@ class PdfRenderer implements Renderer
     {
         return $this;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -98,18 +99,18 @@ class PdfRenderer implements Renderer
         }
 
         $html = $this->getHtmlRenderer()->render($nameOrModel, $values);
-        
+
         $paperSize = $nameOrModel->getOption('paperSize');
         $paperOrientation = $nameOrModel->getOption('paperOrientation');
         $basePath = $nameOrModel->getOption('basePath');
-        
+
         $pdf = $this->getEngine();
         $pdf->setPaper($paperSize, $paperOrientation);
         $pdf->setBasePath($basePath);
-        
+
         $pdf->loadHtml($html);
         $pdf->render();
-        
+
         return $pdf->output();
     }
 }
