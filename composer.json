@@ -38,5 +38,11 @@
         "psr-4": {
           "DOMPDFModuleTest\\": "tests/DOMPDFModuleTest"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "mindplay/composer-locator": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
