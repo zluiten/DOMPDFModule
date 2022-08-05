@@ -1,14 +1,14 @@
-ARG PHP_VERSION=7.1
+ARG PHP_VERSION=7.4
 FROM php:${PHP_VERSION}
 
 ENV COMPOSER_HOME=/var/lib/composer
 WORKDIR /opt/app
 
 RUN apt-get update -y \
-   && apt-get install -y git zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev \
-   && pecl install xdebug-2.5.0 \
+   && apt-get install -y git libzip-dev libfreetype6-dev libjpeg62-turbo-dev \
+   && pecl install xdebug-3.1.5 \
    && docker-php-ext-install -j$(nproc) zip gd \
-   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+   && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
    && docker-php-ext-enable xdebug
 
 RUN { \
