@@ -19,7 +19,7 @@
         "laminas/laminas-modulemanager": "^2.10.1",
         "laminas/laminas-eventmanager": "^3.3.0",
         "laminas/laminas-view": "^2.13.0",
-        "dompdf/dompdf": "^v1.2.0",
+        "dompdf/dompdf": "^v1.2.0 || ^v2.0.0",
         "mindplay/composer-locator": "^2.1.4"
     },
     "require-dev": {
