@@ -23,6 +23,7 @@ jobs:
           - php-version: 8.2
             deps: highest
             experimental: true
+            composer-options: --ignore-platform-reqs
 
     steps:
       - name: Checkout
@@ -41,6 +42,7 @@ jobs:
         uses: ramsey/composer-install@v2
         with:
           dependency-versions: ${{ matrix.deps }}
+          composer-options: ${{ matrix.composer-options }}
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit

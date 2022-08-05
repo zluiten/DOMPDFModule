@@ -105,7 +105,6 @@ class PdfRendererTest extends TestCase
         parent::setUp();
 
         $this->htmlRenderer = $this->createMock(RendererInterface::class);
-        $this->resolver = $this->createMock(ResolverInterface::class);
         $this->engine = $this->getMockBuilder(Dompdf::class)->disableOriginalConstructor()->getMock();
 
         $this->renderer = new PdfRenderer();
